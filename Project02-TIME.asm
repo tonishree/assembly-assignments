@@ -20,8 +20,8 @@
 	line: .asciiz "---------------------------------------------------------\n"
 	luachon: .asciiz "* Lua chon: "
 	ketqua: .asciiz "* Ket qua: "
-	Input: .asciiz "C:/Users/Chep Phim HD/Documents/MARS_4.0.1/MARS 4.0.1/input.txt"
-	Output: .asciiz "C:/Users/Chep Phim HD/Documents/MARS_4.0.1/MARS 4.0.1/output.txt"
+	Input: .asciiz "D:/Project02/KTMT-HN-Project02/input.txt"
+	Output: .asciiz "D:/Project02/KTMT-HN-Project02/output.txt"
 	spc: .asciiz " "
 	newline: .asciiz "\n"
 	flash: .asciiz "/"
@@ -108,7 +108,6 @@
 	time4: .space 10
 	ans5: .space 100
 	ans7: .space 100
-	directory: .space 100
 .text
 main:
 	Menu:
@@ -320,6 +319,7 @@ func4:
 	li $v0,4
 	syscall
 	j ketthuc
+
 func5:
 	li $v0,4
 	la $a0,ketqua
@@ -916,6 +916,7 @@ NgayThuMaytrongTuan: #Tham so dau vao: $a0 la ngay, $a1 la thang, $a2 la nam
 	lw $s1, 0($sp)
 	addi $sp, $sp, 20
 	jr $ra
+
 
 # ham tinh ngay ke tu 1/1/1 tra ve ket qua so ngay trong $v1
 NgayThuMayketuNgayDauTien: #$a0 la day, $a1 la month, $a2 la year
@@ -1565,7 +1566,7 @@ xulyFile:
 	la $a1,header4
 	syscall
 
-	#Xuat tb "ngay/thang/nam"
+	#xuat tb "ngay/thang/nam"
 	la $a0,time1
 	la $a1,str
 	la $a2,str1
@@ -1579,20 +1580,20 @@ xulyFile:
 
 	move $a0,$s7
 	li $v0,15
-	la $a1,time1
+	move $a1,$v1
 	syscall
 
 	#xuat tb " la "
-	la $a0,mess5a
+	la $a0,mess5b
 	jal countStr
 	move $a2,$v0
 	
 	move $a0,$s7
 	li $v0,15
-	la $a1,mess5a
+	la $a1,mess5b
 	syscall
 
-	#Thuc thi ham 4
+	#thuc thi
 	la $a0,str2
 	jal chuyenSo
 	move $a2,$v0
@@ -1604,75 +1605,82 @@ xulyFile:
 	move $a0,$v0
 
 	jal NgayThuMaytrongTuan
-	move $t0,$v1
-	beq $t0,1,Chnhat
-	beq $t0,2,th2
-	beq $t0,3,th3
-	beq $t0,4,th4
-	beq $t0,5,th5
-	beq $t0,6,th6
-	beq $t0,7,th7
+	beq $v1,1,Chnhat
+	beq $v1,2,th2
+	beq $v1,3,th3
+	beq $v1,4,th4
+	beq $v1,5,th5
+	beq $v1,6,th6
+	beq $v1,7,th7
 
 	Chnhat:
 	la $a0,ChuNhat
-	j ThMay.end
-	th2:
-	la $a0,Thu2
-	j ThMay.end
-	th3:
-	la $a0,Thu3
-	j ThMay.end
-	th4:
-	la $a0,Thu4
-	j ThMay.end
-	th5:
-	la $a0,Thu5
-	j ThMay.end
-	th6:
-	la $a0,Thu6
-	j ThMay.end
-	th7:
-	la $a0,Thu7
-	j ThMay.end
-	ThMay.end:
 	jal countStr
 	move $a2,$v0
 	
-	move $t0,$v1
-	beq $t0,1,chnhat
-	beq $t0,2,Th2
-	beq $t0,3,Th3
-	beq $t0,4,Th4
-	beq $t0,5,Th5
-	beq $t0,6,Th6
-	beq $t0,7,Th7
-
-	chnhat:
+	move $a0,$s7
+	li $v0,15
 	la $a1,ChuNhat
-	j thuMay.end
-	Th2:
-	la $a1,Thu2
-	j thuMay.end
-	Th3:
-	la $a1,Thu3
-	j thuMay.end
-	Th4:
-	la $a1,Thu4
-	j thuMay.end
-	Th5:
-	la $a1,Thu5
-	j thuMay.end
-	Th6:
-	la $a1,Thu6
-	j thuMay.end
-	Th7:
-	la $a1,Thu7
-	j thuMay.end
-	thuMay.end:
+	syscall
+	j ThMay.end
+	th2:
+	la $a0,Thu2
+	jal countStr
+	move $a2,$v0
 	
 	move $a0,$s7
 	li $v0,15
+	la $a1,Thu2
 	syscall
+	j ThMay.end
+	th3:
+	la $a0,Thu3
+	jal countStr
+	move $a2,$v0
+	
+	move $a0,$s7
+	li $v0,15
+	la $a1,Thu3
+	j ThMay.end
+	th4:
+	la $a0,Thu4
+	jal countStr
+	move $a2,$v0
+	
+	move $a0,$s7
+	li $v0,15
+	la $a1,Thu4
+	j ThMay.end
+	th5:
+	la $a0,Thu5
+	jal countStr
+	move $a2,$v0
+	
+	move $a0,$s7
+	li $v0,15
+	la $a1,Thu5
+	j ThMay.end
+	th6:
+	la $a0,Thu6
+	jal countStr
+	move $a2,$v0
+	
+	move $a0,$s7
+	li $v0,15
+	la $a1,Thu6
+	j ThMay.end
+	th7:
+	la $a0,Thu7
+	jal countStr
+	move $a2,$v0
+	
+	move $a0,$s7
+	li $v0,15
+	la $a1,Thu7
+	j ThMay.end
+	ThMay.end:
+	
+
 	# In ket qua chuc nang 5
 	la $a0,header5
 	jal countStr
@@ -1699,13 +1707,13 @@ xulyFile:
 	
 	jal xuatTIME
 
-	move $a0,$v1
+	la $a0,time1
 	jal countStr
 	move $a2,$v0
 
 	move $a0,$s7
 	li $v0,15
-	move $a1,$v1
+	la $a1,time1
 	syscall
 
 	la $a0,mess5b
@@ -1963,7 +1971,7 @@ xulyFile:
 
 #---------
 
-	lw $ra,44($sp)
+	lw $ra,40($sp)
 	lw $s7,48($sp)
 	lw $t0,52($sp)
 	lw $t1,56($sp)
@@ -2290,3 +2298,5 @@ kiemtraTIMEhople: #$a1 la ngay, $a2 la thang, $a3 la nam (kieu so)
 	lw $ra,16($sp)
 	addi $sp,$sp,20
 	jr $ra
+
+	
